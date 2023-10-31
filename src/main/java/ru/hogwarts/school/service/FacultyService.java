@@ -6,6 +6,5 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FacultyService {
-   private Long ID = 0L;
-    private Map<Long, Student> facultiesMap = new HashMap<>();
+    private Map<Long, Student> faculties = new HashMap<>();
 }

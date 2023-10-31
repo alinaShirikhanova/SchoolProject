@@ -3,12 +3,13 @@ package ru.hogwarts.school.model;
 import java.util.Objects;
 
 public class Faculty {
+    private static Long ID = 0L;
     private Long id;
     private String name;
     private String color;
 
     public Faculty(Long id, String name, String color) {
-        this.id = id;
+        this.id = ID++;
         this.name = name;
         this.color = color;
     }

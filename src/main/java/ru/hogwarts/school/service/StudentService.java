@@ -7,14 +7,15 @@ import ru.hogwarts.school.model.Student;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Service
 public class StudentService {
-    private Long ID = 0L;
+
     private Map<Long, Student> students = new HashMap<>();
 
     public Student createStudent(Student student) {
-        students.put(ID++, student);
+        students.put(student.getId(), student);
         return student;
     }
 
@@ -22,8 +23,8 @@ public class StudentService {
         return students.get(studentId);
     }
 
-    public Student updateStudent(Long userId, Student student) {
-        students.put(ID, student);
+    public Student updateStudent(Long studentId, Student student) {
+        students.put(studentId, student);
         return student;
     }
 
@@ -31,7 +32,7 @@ public class StudentService {
         return students.remove(studentId);
     }
 
-    public List<Student> getStudentsByAge(Long studentAge) {
+    public List<Student> getStudentsByAge(int studentAge) {
         return students.values().stream()
                 .filter(s -> s.getAge() == studentAge)
                 .toList();
