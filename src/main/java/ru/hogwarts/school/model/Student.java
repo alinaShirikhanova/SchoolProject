@@ -11,9 +11,17 @@ public class Student {
     private Long id;
     private String name;
     private int age;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "faculty_id")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "faculty_id", referencedColumnName = "id")
     private Faculty faculty;
+
+    public static Long getID() {
+        return ID;
+    }
+
+    public static void setID(Long ID) {
+        Student.ID = ID;
+    }
 
     public Student(String name, int age) {
         this.id = ID++;

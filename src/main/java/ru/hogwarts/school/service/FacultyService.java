@@ -5,9 +5,7 @@ import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.FacultyRepository;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 @Service
@@ -17,9 +15,6 @@ public class FacultyService {
     public FacultyService(FacultyRepository facultyRepository) {
         this.facultyRepository = facultyRepository;
     }
-
-
-
 
 
     public void createFaculty(Faculty faculty) {
@@ -50,7 +45,7 @@ public class FacultyService {
     }
 
 
-    public List<Student> getStudents(long facultyId) {
-        return facultyRepository.getStudents(facultyId);
+    public Set<Student> getStudents(Long facultyId) {
+        return facultyRepository.findById(facultyId).get().getStudents();
     }
 }

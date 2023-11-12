@@ -1,5 +1,6 @@
 package ru.hogwarts.school.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -14,17 +15,10 @@ public class Faculty {
     private Long id;
     private String name;
     private String color;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "faculty")
-    private List<Student> students;
+    private Set<Student> students;
 
-    public List<Student> getStudents() {
-        return students;
-    }
-
-    public void setStudents(List<Student> students) {
-        this.students = students;
-    }
 
     public Faculty(Long id, String name, String color) {
         this.id = ID++;
@@ -70,5 +64,22 @@ public class Faculty {
     @Override
     public int hashCode() {
         return Objects.hash(id, name, color);
+
+    }
+
+    public static Long getID() {
+        return ID;
+    }
+
+    public static void setID(Long ID) {
+        Faculty.ID = ID;
+    }
+
+    public Set<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(Set<Student> students) {
+        this.students = students;
     }
 }
