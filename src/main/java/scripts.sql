@@ -1,0 +1,5 @@
+--select * FROM student WHERE age >= 15 and age <= 30
+--select name FROM student
+--select * FROM student where name like '%а%'
+--select * FROM student where age < id
+--select * FROM studentorder by age

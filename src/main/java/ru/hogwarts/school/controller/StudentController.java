@@ -1,10 +1,13 @@
 package ru.hogwarts.school.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.StudentService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequestMapping("/student")
@@ -19,8 +22,11 @@ public class StudentController {
 
     @PostMapping
     public ResponseEntity<Student> createUser(@RequestBody Student student) {
-        Student createdStudent = studentService.createStudent(student);
-        return ResponseEntity.ok(createdStudent);
+        studentService.createStudent(student);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+
+
     }
 
     @GetMapping("filter/{studentAge}")
@@ -50,11 +56,19 @@ public class StudentController {
     }
 
     @DeleteMapping("/delete/{studentId}")
-    public ResponseEntity<Student> deleteStudent(@PathVariable Long studentId){
-        Student deletedStudent = studentService.deleteStudent(studentId);
-        if (deletedStudent == null)
-            return ResponseEntity.notFound().build();
-        return ResponseEntity.ok(deletedStudent);
+    public ResponseEntity<Long> deleteStudent(@PathVariable Long studentId){
+        studentService.deleteStudent(studentId);
+        return ResponseEntity.ok(studentId);
+    }
+
+    @GetMapping("/find/{min}/{max}")
+    public ResponseEntity<List<Student>> getStudent(@PathVariable("min") int min, @PathVariable("max") int max ){
+        return new ResponseEntity<>(studentService.getStudentsByAgeBetween(min, max), HttpStatus.OK);
+    }
+
+    @GetMapping("/get/faculty/{studentId}")
+    public ResponseEntity<Faculty> getStudent(@PathVariable("studentId") int studentId ){
+        return ResponseEntity.ok(studentService.getStudentFaculty(studentId));
     }
 
 }
