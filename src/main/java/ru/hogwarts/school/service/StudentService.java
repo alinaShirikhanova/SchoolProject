@@ -38,7 +38,6 @@ public class StudentService {
 
     public void deleteStudent(Long studentId) {
         studentRepository.deleteById(studentId);
-
     }
 
     public List<Student> getStudentsByAge(int studentAge) {
@@ -51,5 +50,14 @@ public class StudentService {
 
     public Faculty getStudentFaculty(Long studentId) {
         return studentRepository.getStudentById(studentId).getFaculty();
+    }
+    public int getAmountOfStudents() {
+        return studentRepository.getAmountOfStudents();
+    }
+
+
+
+    public int     getAverageAge() {
+        return studentRepository.getAverageAge();
     }
 }

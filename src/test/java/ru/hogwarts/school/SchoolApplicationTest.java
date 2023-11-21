@@ -13,6 +13,8 @@ import ru.hogwarts.school.controller.StudentController;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -26,6 +28,11 @@ class SchoolApplicationTest {
 
     @Autowired
     private TestRestTemplate restTemplate;
+
+    @Test
+    void contextLoads() {
+        assertNotNull(studentController);
+    }
 
 
     @Test
@@ -42,4 +49,70 @@ class SchoolApplicationTest {
 
         assertEquals(testStudent, response.getBody());
     }
+
+
+//    @Test
+//    public void testDeleteStudent() throws Exception {
+//        Student testStudent = new Student();
+//        testStudent.setId(1L);
+//        testStudent.setAge(12);
+//        testStudent.setName("Вася");
+//        testStudent.setFaculty(new Faculty(1L, "Гриффиндор", "Красный"));
+//
+//        this.restTemplate.delete("http://localhost:" + port + "/student/delete/",testStudent, Student.class);
+//
+//        assertEquals(HttpStatus.OK, response.getStatusCode());
+//
+//        assertEquals(testStudent, response.getBody());
+//    }
+
+
+    @Test
+    public void testCreateStudent() throws Exception {
+        Student testStudent = new Student();
+        testStudent.setId(100L);
+        testStudent.setAge(100);
+        testStudent.setName("Эдуард");
+
+
+        ResponseEntity<Student> response = this.restTemplate.postForEntity("http://localhost:" + port + "/student", testStudent, Student.class);
+
+        assertThat(response).isNotNull();
+    }
+
+    @Test
+    public void testUpdateStudent() throws Exception {
+        Student testStudent = new Student();
+        testStudent.setId(252L);
+        testStudent.setAge(100);
+        testStudent.setName("Эдуардддд");
+
+
+        ResponseEntity<Student> response = this.restTemplate.postForEntity("http://localhost:" + port + "/student", testStudent, Student.class);
+
+        assertThat(response).isNotNull();
+    }
+
+
+    @Test
+    public void testFilterStudent() throws Exception {
+        Student testStudent = new Student();
+        testStudent.setId(102L);
+        testStudent.setAge(23);
+        testStudent.setName("Ваня");
+
+
+        ResponseEntity<Student[]> response = this.restTemplate.getForEntity("http://localhost:" + port + "/filter/",  Student[].class );
+        Student[] students = response.getBody();
+        Student[] students2 = {testStudent};
+
+
+        assertThat(students).isEqualTo(students2);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
+
+
+
+
+
 }

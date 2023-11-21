@@ -17,8 +17,10 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     List<String> findByNameIsStartingWith(String str);
 
     List<Student> findByAgeBetween(int min, int max);
+    @Query(value = "SELECT COUNT(*) FROM student", nativeQuery = true)
+    int getAmountOfStudents();
 
 
-
-
+    @Query(value = "SELECT AVG(age) from student", nativeQuery = true)
+    int getAverageAge();
 }
