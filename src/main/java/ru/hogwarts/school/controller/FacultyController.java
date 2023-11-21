@@ -62,8 +62,8 @@ public class FacultyController {
         return ResponseEntity.ok(facultyId);
     }
 
-    @GetMapping("/find/{name}/{color}")
-    public ResponseEntity<List<Faculty>> getStudent(@PathVariable("name") String name, @PathVariable("color") String color ){
+    @GetMapping("/find")
+    public ResponseEntity<List<Faculty>> findByNameOrColor(@RequestParam(value = "name", required = false) String name, @RequestParam(value = "color", required = false) String color ){
         return ResponseEntity.ok(facultyService.getFacultiesByNameOrColor(name, color));
     }
 
@@ -72,4 +72,6 @@ public class FacultyController {
     public ResponseEntity<Set<Student>> getStudents(@PathVariable("facultyId") Long facultyId){
         return ResponseEntity.ok(facultyService.getStudents(facultyId));
     }
+
+
 }

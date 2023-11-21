@@ -49,7 +49,7 @@ public class StudentService {
         return studentRepository.findByAgeBetween(min, max);
     }
 
-    public Faculty getStudentFaculty(int studentId) {
+    public Faculty getStudentFaculty(Long studentId) {
         return studentRepository.getStudentById(studentId).getFaculty();
     }
 }

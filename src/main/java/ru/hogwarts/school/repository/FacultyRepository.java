@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface FacultyRepository extends JpaRepository<Faculty, Long> {
     Faculty getFacultyById(long id);
-    List<Faculty> findByNameOrColorIgnoreCase(String name, String color);
+    List<Faculty> findByNameIgnoreCaseOrColorIgnoreCase(String name, String color);
 
     List<Faculty> findAllByColor(String facultyColor);
 //    @Query(value = "SELECT * from student where faculty_id = :id", nativeQuery = true)

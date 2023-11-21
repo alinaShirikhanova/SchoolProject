@@ -9,7 +9,7 @@ import ru.hogwarts.school.model.Student;
 import java.util.List;
 
 public interface StudentRepository extends JpaRepository<Student, Long> {
-    Student getStudentById(long id);
+    Student getStudentById(Long id);
 
 //    void update(Student student);
 
