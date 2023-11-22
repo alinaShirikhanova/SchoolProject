@@ -15,8 +15,9 @@ import java.nio.file.Path;
 
 import static java.nio.file.StandardOpenOption.CREATE_NEW;
 
+
+//@Transactional
 @Service
-@Transactional
 public class AvatarService {
 
     private final StudentRepository studentRepository;

@@ -22,9 +22,9 @@ public class StudentController {
 
     @PostMapping
     public ResponseEntity<Student> createUser(@RequestBody Student student) {
-        studentService.createStudent(student);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+
+        return ResponseEntity.ok(studentService.createStudent(student));
 
 
     }
