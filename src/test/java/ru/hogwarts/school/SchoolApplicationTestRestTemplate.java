@@ -1,17 +1,16 @@
 package ru.hogwarts.school;
 
-import org.assertj.core.api.Assertions;
-import org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
+
 import ru.hogwarts.school.controller.StudentController;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
+import org.springframework.core.ParameterizedTypeReference;
 
 import java.util.List;
 
@@ -19,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class SchoolApplicationTest {
+class SchoolApplicationTestRestTemplate {
     @LocalServerPort
     private int port;
 
@@ -54,12 +53,12 @@ class SchoolApplicationTest {
 //    @Test
 //    public void testDeleteStudent() throws Exception {
 //        Student testStudent = new Student();
-//        testStudent.setId(1L);
-//        testStudent.setAge(12);
-//        testStudent.setName("Вася");
+//        testStudent.setId(352L);
+//        testStudent.setAge(100);
+//        testStudent.setName("Эдуард");
 //        testStudent.setFaculty(new Faculty(1L, "Гриффиндор", "Красный"));
 //
-//        this.restTemplate.delete("http://localhost:" + port + "/student/delete/",testStudent, Student.class);
+//        this.restTemplate.delete("http://localhost:" + port + "/student/delete/", testStudent, Student.class);
 //
 //        assertEquals(HttpStatus.OK, response.getStatusCode());
 //
@@ -95,24 +94,62 @@ class SchoolApplicationTest {
 
 
     @Test
+    public void testGetFaculty() throws Exception {
+        Faculty faculty = new Faculty();
+        faculty.setColor("Красный");
+        faculty.setName("Гриффиндор");
+        faculty.setId(1L);
+
+
+        ResponseEntity<Faculty> response = this.restTemplate.getForEntity("http://localhost:" + port + "/student/get/faculty/" + 252, Faculty.class);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+
+        assertEquals(faculty, response.getBody());
+    }
+
+
+    @Test
     public void testFilterStudent() throws Exception {
         Student testStudent = new Student();
         testStudent.setId(102L);
         testStudent.setAge(23);
         testStudent.setName("Ваня");
+        testStudent.setFaculty(new Faculty(1L, "Гриффиндор", "Красный"));
 
 
-        ResponseEntity<Student[]> response = this.restTemplate.getForEntity("http://localhost:" + port + "/filter/",  Student[].class );
-        Student[] students = response.getBody();
-        Student[] students2 = {testStudent};
+        List<Student> dtoList = this.exchangeAsList("http://localhost:" + port + "/student/filter/" + 23, new ParameterizedTypeReference<>() {});
+
+        List<Student> expected = List.of(testStudent);
 
 
-        assertThat(students).isEqualTo(students2);
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertEquals(expected, dtoList);
+    }
+
+    public <T> List<T> exchangeAsList(String uri, ParameterizedTypeReference<List<T>> responseType) {
+        return restTemplate.exchange(uri, HttpMethod.GET, null, responseType).getBody();
     }
 
 
+    @Test
+    public void testFindByAgeBetween() throws Exception {
+        Student testStudent = new Student();
+        testStudent.setId(102L);
+        testStudent.setAge(23);
+        testStudent.setName("Ваня");
+        Faculty faculty = new Faculty(1L, "Гриффиндор", "Красный");
+        testStudent.setFaculty(faculty);
 
 
 
+        Student testStudent2 = new Student();
+        testStudent2.setId(2L);
+        testStudent2.setAge(13);
+        testStudent2.setName("Коля");
+        testStudent2.setFaculty(faculty);
+
+
+        List<Student> dtoList = this.exchangeAsList("http://localhost:" + port + "/student/find/" + 13 + "/" + 23, new ParameterizedTypeReference<>() {});
+        List<Student> expected = List.of(testStudent2, testStudent);
+        assertEquals(expected, dtoList);
+    }
 }

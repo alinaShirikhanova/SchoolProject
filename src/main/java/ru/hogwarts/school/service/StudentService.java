@@ -57,7 +57,7 @@ public class StudentService {
 
 
 
-    public int     getAverageAge() {
+    public int getAverageAge() {
         return studentRepository.getAverageAge();
     }
 }
