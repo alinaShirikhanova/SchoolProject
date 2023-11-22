@@ -68,10 +68,10 @@ public class SchoolApplicationTest {
         student.setAge(age);
 
 
-        System.out.println(userObject);
+
 
         when(userRepository.save(any(Student.class))).thenReturn(student);
-        when(userRepository.findById(any(Long.class))).thenReturn(Optional.of(student));
+
 
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/student") //send
@@ -81,8 +81,60 @@ public class SchoolApplicationTest {
                 .andExpect(status().isOk()) //receive
                 .andExpect(jsonPath("$.id").value(id))
                 .andExpect(jsonPath("$.name").value(name));
+
+    }
+
+
+    @Test
+    public void getStudentByIdTest() throws Exception {
+        Long id = 1L;
+        String name = "Bob";
+        int age = 23;
+
+
+//        JSONObject userObject = new JSONObject();
+//        userObject.put("name", name);
+//        userObject.put("age", age);
+
+
+        Student student = new Student();
+        student.setId(id);
+        student.setName(name);
+        student.setAge(age);
+
+
+        when(userRepository.save(any(Student.class))).thenReturn(student);
+
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/student") //send
+                        .get("/student/1")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk()) //receive
+                .andExpect(jsonPath("$.id").value(id))
+                .andExpect(jsonPath("$.name").value(name));
+    }
+
+    @Test
+    public void updateStudent() throws Exception {
+        Long id = 1L;
+        String name = "Bob";
+        int age = 23;
+
+
+        JSONObject userObject = new JSONObject();
+        userObject.put("name", name);
+        userObject.put("age", age);
+
+
+        Student student = new Student();
+        student.setId(id);
+        student.setName(name);
+        student.setAge(age);
+
+
+        when(userRepository.save(any(Student.class))).thenReturn(student);
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .put("/student") //send
                         .content(userObject.toString())
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
