@@ -141,29 +141,10 @@ public class SchoolApplicationTest {
 
     @Test
     public void deleteStudentById() throws Exception {
-        Long id = 1L;
-        String name = "Bob";
-        int age = 23;
-
-
-        JSONObject userObject = new JSONObject();
-        userObject.put("name", name);
-        userObject.put("age", age);
-
-
-        Student student = new Student();
-        student.setId(id);
-        student.setName(name);
-        student.setAge(age);
-        
-
         mockMvc.perform(MockMvcRequestBuilders
-                        .put("/student") //send
-                        .content(userObject.toString())
+                        .delete("/student/delete/1") //send
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk()) //receive
-                .andExpect(jsonPath("$.id").value(id))
-                .andExpect(jsonPath("$.name").value(name));
+                .andExpect(status().isOk()); //receive;
     }
 }
