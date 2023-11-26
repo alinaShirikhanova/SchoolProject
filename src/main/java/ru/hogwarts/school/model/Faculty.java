@@ -19,7 +19,6 @@ public class Faculty {
     @OneToMany(mappedBy = "faculty")
     private Set<Student> students;
 
-
     public Faculty(Long id, String name, String color) {
         this.id = ID++;
         this.name = name;
