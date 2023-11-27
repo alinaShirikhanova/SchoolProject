@@ -57,6 +57,10 @@ public class StudentService {
 
 
     public int getAverageAge() {
+
         return studentRepository.getAverageAge();
+    }
+    public List<Student> getFiveLastStudents() {
+        return studentRepository.getFiveLastStudents();
     }
 }

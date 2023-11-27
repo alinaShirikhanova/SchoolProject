@@ -128,7 +128,26 @@ class SchoolApplicationTestRestTemplate {
     public <T> List<T> exchangeAsList(String uri, ParameterizedTypeReference<List<T>> responseType) {
         return restTemplate.exchange(uri, HttpMethod.GET, null, responseType).getBody();
     }
+    @Test
+    public void testFilterStudentParam() throws Exception {
+        Student testStudent = new Student();
+        testStudent.setId(102L);
+        testStudent.setAge(23);
+        testStudent.setName("Ваня");
+        testStudent.setFaculty(new Faculty(1L, "Гриффиндор", "Красный"));
 
+
+        ResponseEntity<List<Student>> studentRs =
+                restTemplate.exchange("http://localhost:" + port + "/student/filterParam?studentAge=23",
+                        HttpMethod.GET, null, new ParameterizedTypeReference<>() {
+                        });
+        List<Student> studentRsBody = studentRs.getBody();
+
+        List<Student> expected = List.of(testStudent);
+
+
+        assertEquals(expected, studentRsBody);
+    }
 
     @Test
     public void testFindByAgeBetween() throws Exception {
@@ -148,8 +167,32 @@ class SchoolApplicationTestRestTemplate {
         testStudent2.setFaculty(faculty);
 
 
-        List<Student> dtoList = this.exchangeAsList("http://localhost:" + port + "/student/find/" + 13 + "/" + 23, new ParameterizedTypeReference<>() {});
+        List<Student> dtoList = this.exchangeAsList("http://localhost:" + port + "/student/find/13/23", new ParameterizedTypeReference<>() {});
         List<Student> expected = List.of(testStudent2, testStudent);
         assertEquals(expected, dtoList);
     }
+//    @Test
+//    public void testGetFaculty() throws Exception {
+//        Student testStudent = new Student();
+//        testStudent.setId(102L);
+//        testStudent.setAge(23);
+//        testStudent.setName("Ваня");
+//        Faculty faculty = new Faculty(1L, "Гриффиндор", "Красный");
+//        testStudent.setFaculty(faculty);
+//
+//
+//
+//        Student testStudent2 = new Student();
+//        testStudent2.setId(2L);
+//        testStudent2.setAge(13);
+//        testStudent2.setName("Коля");
+//        testStudent2.setFaculty(faculty);
+//
+//
+//        ResponseEntity<Faculty> faculty1 = this.restTemplate.getForEntity("http://localhost:" + port + "/student/get/faculty/102", Faculty.class);
+//
+//        assertEquals(faculty1.getBody(), faculty);
+//    }
+
+
 }

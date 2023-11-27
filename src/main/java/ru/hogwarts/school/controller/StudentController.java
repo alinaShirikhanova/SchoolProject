@@ -34,6 +34,16 @@ public class StudentController {
         return ResponseEntity.ok(students);
     }
 
+
+    @GetMapping("/filterParam")
+    public ResponseEntity<List<Student>> getStudentsByAgeParam(@RequestParam("studentAge") int studentAge){
+        List<Student> students = studentService.getStudentsByAge(studentAge);
+        if (students.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(students);
+    }
+
     @GetMapping("/{studentId}")
     public ResponseEntity<Student> getStudent(@PathVariable Long studentId){
         Student student = studentService.getStudentById(studentId);
@@ -75,5 +85,9 @@ public class StudentController {
     @GetMapping("/average")
     public int getAverageAge() {
         return studentService.getAverageAge();
+    }
+    @GetMapping("/last")
+    public ResponseEntity<List<Student>> getFiveLastStudents(){
+        return ResponseEntity.ok(studentService.getFiveLastStudents());
     }
 }
