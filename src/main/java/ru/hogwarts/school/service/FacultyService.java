@@ -17,8 +17,8 @@ public class FacultyService {
     }
 
 
-    public void createFaculty(Faculty faculty) {
-        facultyRepository.save(faculty);
+    public Faculty createFaculty(Faculty faculty) {
+        return facultyRepository.save(faculty);
     }
 
 
@@ -27,8 +27,7 @@ public class FacultyService {
     }
 
     public Faculty updateFaculty(Long facultyId, Faculty faculty) {
-        facultyRepository.save(faculty);
-        return faculty;
+        return facultyRepository.save(faculty);
     }
 
     public void deleteFaculty(Long facultyId) {

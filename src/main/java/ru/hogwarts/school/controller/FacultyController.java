@@ -25,7 +25,7 @@ public class FacultyController {
     public ResponseEntity<Faculty> createFaculty(@RequestBody Faculty faculty) {
         facultyService.createFaculty(faculty);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return ResponseEntity.ok(facultyService.createFaculty(faculty));
 
 
     }
@@ -53,7 +53,7 @@ public class FacultyController {
         Faculty updatedFaculty = facultyService.updateFaculty(faculty.getId(), faculty);
         if (updatedFaculty == null)
             return ResponseEntity.notFound().build();
-        return ResponseEntity.ok(faculty);
+        return ResponseEntity.ok(updatedFaculty);
     }
 
     @DeleteMapping("/delete/{facultyId}")
